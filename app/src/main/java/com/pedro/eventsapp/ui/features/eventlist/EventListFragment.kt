@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
@@ -15,6 +16,7 @@ import com.pedro.eventsapp.api.EventsClientImpl
 import com.pedro.eventsapp.data.EventItem
 import com.pedro.eventsapp.data.network.ResponseHandlerImpl
 import com.pedro.eventsapp.data.network.Status
+import com.pedro.eventsapp.ui.features.eventlist.EventListFragmentDirections.actionEventListToEventDetail
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import kotlinx.android.synthetic.main.item_event.view.*
@@ -22,10 +24,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class ListEventsFragment : Fragment(), CoroutineScope by MainScope() {
+class EventListFragment : Fragment(), CoroutineScope by MainScope() {
 
-    private lateinit var viewModel: ListEventsViewModel
-    private lateinit var adapter: Adapter
+    private lateinit var viewModelEvent: EventListViewModel
+    private val adapter = Adapter(mutableListOf(), this::goToEventDetail)
 
 
     override fun onCreateView(
@@ -38,11 +40,9 @@ class ListEventsFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(ListEventsViewModel::class.java)
-        viewModel.eventsClient = EventsClientImpl
-        viewModel.responseHandler = ResponseHandlerImpl
-
-        adapter = Adapter(mutableListOf())
+        viewModelEvent = ViewModelProvider(this).get(EventListViewModel::class.java)
+        viewModelEvent.eventsClient = EventsClientImpl
+        viewModelEvent.responseHandler = ResponseHandlerImpl
 
         val linearLayoutManager = LinearLayoutManager(requireContext())
 
@@ -51,20 +51,21 @@ class ListEventsFragment : Fragment(), CoroutineScope by MainScope() {
 
     private fun loadEvents(linearLayoutManager: LinearLayoutManager) {
         launch {
-            val eventsResource = viewModel.fetchEventsList()
+            val eventsResource = viewModelEvent.fetchEventsList()
             when (eventsResource.status) {
                 Status.SUCCESS -> {
                     val events = eventsResource.data
-                    renderCharacterList(linearLayoutManager, events!!)
+                    renderEventList(linearLayoutManager, events!!)
                 }
                 Status.ERROR -> {
-                    Toast.makeText(requireContext(), eventsResource.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), eventsResource.message, Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         }
     }
 
-    private fun renderCharacterList(
+    private fun renderEventList(
         linearLayoutManager: LinearLayoutManager,
         events: List<EventItem>
     ) {
@@ -72,9 +73,22 @@ class ListEventsFragment : Fragment(), CoroutineScope by MainScope() {
         eventsRecyclerView.adapter = adapter
         adapter.setEventList(events)
     }
+
+    private fun goToEventDetail(
+        title: String,
+        imageURL: String,
+        price: String,
+        description: String
+    ) {
+        val directions = actionEventListToEventDetail(title, imageURL, price, description)
+        findNavController().navigate(directions)
+    }
 }
 
-class Adapter(private val eventList: MutableList<EventItem>) : RecyclerView.Adapter<Adapter.ItemViewHolder>() {
+class Adapter(
+    private var eventList: List<EventItem>,
+    val action: (String, String, String, String) -> Unit
+) : RecyclerView.Adapter<Adapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -91,10 +105,13 @@ class Adapter(private val eventList: MutableList<EventItem>) : RecyclerView.Adap
         holder.itemView.eventName.text = event.title
         holder.itemView.eventImage.load(event.image)
 
+        holder.itemView.setOnClickListener {
+            action(event.title, event.image, event.price.toString(), event.description)
+        }
     }
 
     fun setEventList(eventList: List<EventItem>) {
-        this.eventList.addAll(eventList)
+        this.eventList = eventList
         notifyDataSetChanged()
     }
 

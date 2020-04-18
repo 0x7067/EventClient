@@ -10,7 +10,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class ListEventsViewModelTest {
+class EventListViewModelTest {
 
     private val eventListResponse = mock<List<EventItem>>()
 
@@ -27,7 +27,7 @@ class ListEventsViewModelTest {
         on { handleException<List<EventItem>>(any()) } doReturn eventListResponseResourceError
     }
 
-    private val eventListViewModel = ListEventsViewModel()
+    private val eventListViewModel = EventListViewModel()
 
     @Before
     fun setup() {

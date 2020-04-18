@@ -3,11 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/listEventsFragment">
+    app:startDestination="@id/eventListFragment">
 
     <fragment
-        android:id="@+id/listEventsFragment"
-        android:name="com.pedro.eventsapp.ui.features.eventlist.ListEventsFragment"
+        android:id="@+id/eventListFragment"
+        android:name="com.pedro.eventsapp.ui.features.eventlist.EventListFragment"
         tools:layout="@layout/fragment_event_list">
+        <action
+            android:id="@+id/action_eventListToEventDetail"
+            app:destination="@id/eventDetailFragment"
+            app:enterAnim="@anim/slide_enter"
+            app:exitAnim="@anim/slide_exit"
+            app:popEnterAnim="@anim/slide_pop_enter"
+            app:popExitAnim="@anim/slide_pop_exit"
+            app:popUpTo="@+id/eventListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.pedro.eventsapp.ui.features.eventdetail.EventDetailFragment"
+        tools:layout="@layout/fragment_event_detail">
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+
+        <argument
+            android:name="imageURL"
+            app:argType="string" />
+
+        <argument
+            android:name="price"
+            app:argType="string" />
+
+        <argument
+            android:name="description"
+            app:argType="string" />
     </fragment>
 </navigation>
