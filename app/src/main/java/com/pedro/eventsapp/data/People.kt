@@ -1,4 +1,4 @@
-package com.pedro.eventsapp.model
+package com.pedro.eventsapp.data
 
 data class People(
     val eventId: String,

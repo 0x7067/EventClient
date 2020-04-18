@@ -2,6 +2,7 @@ package com.pedro.eventsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.pedro.eventsapp.api.EventsClientImpl
 
 class MainActivity : AppCompatActivity() {
 
