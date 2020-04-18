@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/eventImage"
             android:layout_width="match_parent"
-            android:layout_height="175dp"
+            android:layout_height="275dp"
             android:padding="4dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,6 +41,9 @@
                 android:id="@+id/eventName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:paddingBottom="8dp"
                 tools:text="Doação de roupas" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
