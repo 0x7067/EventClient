@@ -1,6 +1,7 @@
 package com.pedro.eventsapp.ui.features.eventdetail
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,5 +31,17 @@ class EventDetailFragment : Fragment() {
         eventImage.load(args.imageURL)
         eventPrice.text = "R$${args.price}"
         eventDescription.text = args.description
+
+        buttonShare.setOnClickListener {
+            val sendIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_SUBJECT, args.title)
+                putExtra(Intent.EXTRA_TEXT, args.description)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
     }
 }
