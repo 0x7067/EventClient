@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EventsApp</string>
+    <string name="checkin">Check-in</string>
 </resources>

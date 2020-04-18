@@ -1,11 +1,13 @@
 package com.pedro.eventsapp.api
 
+import com.pedro.eventsapp.data.CheckinRequest
 import com.pedro.eventsapp.data.EventDetail
 import com.pedro.eventsapp.data.EventItem
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
@@ -15,6 +17,9 @@ interface EventsClient {
 
     @Throws(Exception::class)
     suspend fun getEventDetails(@Path("eventID") eventID: Int): EventDetail
+
+    @Throws(Exception::class)
+    suspend fun checkin(@Body checkinRequest: CheckinRequest) : Void
 }
 
 object EventsClientImpl : EventsClient {
@@ -48,6 +53,10 @@ object EventsClientImpl : EventsClient {
 
     override suspend fun getEventDetails(eventID: Int): EventDetail {
         return getEventsApi(getRetrofit()).getEventDetails(eventID)
+    }
+
+    override suspend fun checkin(checkinRequest: CheckinRequest): Void {
+        return getEventsApi(getRetrofit()).checkin(checkinRequest)
     }
 
 }

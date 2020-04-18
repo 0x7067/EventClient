@@ -60,7 +60,7 @@
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="Check in"
+            android:text="@string/checkin"
             app:cornerRadius="24dp"
             app:layout_constraintBottom_toTopOf="@+id/eventDescription"
             app:layout_constraintEnd_toStartOf="@+id/buttonShare"

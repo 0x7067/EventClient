@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.api.load
 import com.pedro.eventsapp.R
+import com.pedro.eventsapp.ui.features.eventdetail.EventDetailFragmentDirections.actionCheckin
 import kotlinx.android.synthetic.main.fragment_event_detail.*
 
 class EventDetailFragment : Fragment() {
@@ -31,6 +33,10 @@ class EventDetailFragment : Fragment() {
         eventImage.load(args.imageURL)
         eventPrice.text = "R$${args.price}"
         eventDescription.text = args.description
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         buttonShare.setOnClickListener {
             val sendIntent = Intent().apply {
@@ -42,6 +48,11 @@ class EventDetailFragment : Fragment() {
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
+        }
+
+        buttonCheckin.setOnClickListener {
+            val directions = actionCheckin()
+            findNavController().navigate(directions)
         }
     }
 }
