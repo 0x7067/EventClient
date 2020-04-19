@@ -6,7 +6,7 @@ import com.pedro.eventsapp.data.EventItem
 import com.pedro.eventsapp.data.network.Resource
 import com.pedro.eventsapp.data.network.ResponseHandler
 
-class EventListViewModel(): ViewModel() {
+class EventListViewModel : ViewModel() {
     lateinit var responseHandler: ResponseHandler
     lateinit var eventsClient: EventsClient
 

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class EventListFragment : Fragment(), CoroutineScope by MainScope() {
 
-    private lateinit var viewModelEvent: EventListViewModel
+    private lateinit var viewModel: EventListViewModel
     private val adapter = Adapter(mutableListOf(), this::goToEventDetail)
 
 
@@ -40,9 +40,9 @@ class EventListFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModelEvent = ViewModelProvider(this).get(EventListViewModel::class.java)
-        viewModelEvent.eventsClient = EventsClientImpl
-        viewModelEvent.responseHandler = ResponseHandlerImpl
+        viewModel = ViewModelProvider(this).get(EventListViewModel::class.java)
+        viewModel.eventsClient = EventsClientImpl
+        viewModel.responseHandler = ResponseHandlerImpl
 
         val linearLayoutManager = LinearLayoutManager(requireContext())
 
@@ -51,7 +51,7 @@ class EventListFragment : Fragment(), CoroutineScope by MainScope() {
 
     private fun loadEvents(linearLayoutManager: LinearLayoutManager) {
         launch {
-            val eventsResource = viewModelEvent.fetchEventsList()
+            val eventsResource = viewModel.fetchEventsList()
             when (eventsResource.status) {
                 Status.SUCCESS -> {
                     val events = eventsResource.data
