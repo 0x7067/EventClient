@@ -78,16 +78,17 @@ class EventListFragment : Fragment(), CoroutineScope by MainScope() {
         title: String,
         imageURL: String,
         price: String,
-        description: String
+        description: String,
+        eventID: String
     ) {
-        val directions = actionEventListToEventDetail(title, imageURL, price, description)
+        val directions = actionEventListToEventDetail(title, imageURL, price, description, eventID)
         findNavController().navigate(directions)
     }
 }
 
 class Adapter(
     private var eventList: List<EventItem>,
-    val action: (String, String, String, String) -> Unit
+    val action: (String, String, String, String, String) -> Unit
 ) : RecyclerView.Adapter<Adapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -106,7 +107,7 @@ class Adapter(
         holder.itemView.eventImage.load(event.image)
 
         holder.itemView.setOnClickListener {
-            action(event.title, event.image, event.price.toString(), event.description)
+            action(event.title, event.image, event.price.toString(), event.description, event.id)
         }
     }
 

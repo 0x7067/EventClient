@@ -29,6 +29,10 @@ class EventDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        renderEvent()
+    }
+
+    private fun renderEvent() {
         eventTitle.text = args.title
         eventImage.load(args.imageURL)
         eventPrice.text = "R$${args.price}"
@@ -51,7 +55,7 @@ class EventDetailFragment : Fragment() {
         }
 
         buttonCheckin.setOnClickListener {
-            val directions = actionCheckin()
+            val directions = actionCheckin(args.eventID)
             findNavController().navigate(directions)
         }
     }

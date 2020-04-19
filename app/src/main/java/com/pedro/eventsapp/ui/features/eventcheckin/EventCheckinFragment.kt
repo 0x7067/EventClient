@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.pedro.eventsapp.R
 import com.pedro.eventsapp.api.EventsClientImpl
 import com.pedro.eventsapp.data.CheckinRequest
 import com.pedro.eventsapp.data.network.ResponseHandlerImpl
 import com.pedro.eventsapp.data.network.Status
+import com.pedro.eventsapp.ui.features.eventdetail.EventDetailFragmentArgs
 import kotlinx.android.synthetic.main.dialog_event_checkin.*
 import kotlinx.android.synthetic.main.fragment_event_detail.buttonCheckin
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +23,7 @@ import kotlinx.coroutines.launch
 class EventCheckinFragment : DialogFragment(), CoroutineScope by MainScope() {
 
     private lateinit var viewModel: EventCheckinViewModel
+    private val args: EventCheckinFragmentArgs by navArgs()
 
     override fun onStart() {
         super.onStart()
@@ -46,7 +49,7 @@ class EventCheckinFragment : DialogFragment(), CoroutineScope by MainScope() {
 
         buttonCheckin.setOnClickListener {
             val checkinRequest =
-                CheckinRequest("1", inputName.text.toString(), inputEmail.text.toString())
+                CheckinRequest(args.eventID, inputName.text.toString(), inputEmail.text.toString())
            postCheckin(checkinRequest)
         }
     }

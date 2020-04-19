@@ -47,11 +47,19 @@
         <argument
             android:name="description"
             app:argType="string" />
+
+        <argument
+            android:name="eventID"
+            app:argType="string" />
     </fragment>
 
     <dialog
         android:id="@+id/checkin_dialog"
         android:name="com.pedro.eventsapp.ui.features.eventcheckin.EventCheckinFragment"
         tools:layout="@layout/dialog_event_checkin">
+
+        <argument
+            android:name="eventID"
+            app:argType="string" />
     </dialog>
 </navigation>
