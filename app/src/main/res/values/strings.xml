@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">EventsApp</string>
     <string name="checkin">Check-in</string>
+    <string name="price">Preço</string>
+    <string name="share">Compartilhar</string>
+    <string name="name">Nome</string>
+    <string name="email">E-mail</string>
 </resources>
