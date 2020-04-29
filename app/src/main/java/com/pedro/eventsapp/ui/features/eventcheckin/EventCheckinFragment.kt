@@ -13,7 +13,6 @@ import com.pedro.eventsapp.api.EventsClientImpl
 import com.pedro.eventsapp.data.CheckinRequest
 import com.pedro.eventsapp.data.network.ResponseHandlerImpl
 import com.pedro.eventsapp.data.network.Status
-import com.pedro.eventsapp.ui.features.eventdetail.EventDetailFragmentArgs
 import kotlinx.android.synthetic.main.dialog_event_checkin.*
 import kotlinx.android.synthetic.main.fragment_event_detail.buttonCheckin
 import kotlinx.coroutines.CoroutineScope
@@ -48,9 +47,21 @@ class EventCheckinFragment : DialogFragment(), CoroutineScope by MainScope() {
         viewModel.responseHandler = ResponseHandlerImpl
 
         buttonCheckin.setOnClickListener {
-            val checkinRequest =
-                CheckinRequest(args.eventID, inputName.text.toString(), inputEmail.text.toString())
-           postCheckin(checkinRequest)
+            if (inputName.text.isNotEmpty() && inputEmail.text.isNotEmpty()) {
+                val checkinRequest =
+                    CheckinRequest(
+                        args.eventID,
+                        inputName.text.toString(),
+                        inputEmail.text.toString()
+                    )
+                postCheckin(checkinRequest)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Campo não pode estar em branco",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
@@ -67,7 +78,8 @@ class EventCheckinFragment : DialogFragment(), CoroutineScope by MainScope() {
                         .show()
                 }
                 Status.ERROR -> {
-                    Toast.makeText(requireContext(),
+                    Toast.makeText(
+                        requireContext(),
                         eventsResource.message,
                         Toast.LENGTH_LONG
                     )
