@@ -5,6 +5,7 @@ import com.pedro.eventsapp.data.EventDetail
 import com.pedro.eventsapp.data.EventItem
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -19,7 +20,7 @@ interface EventsClient {
     suspend fun getEventDetails(@Path("eventID") eventID: Int): EventDetail
 
     @Throws(Exception::class)
-    suspend fun checkin(@Body checkinRequest: CheckinRequest) : Void
+    suspend fun checkin(@Body checkinRequest: CheckinRequest) : Call<Void>
 }
 
 object EventsClientImpl : EventsClient {
@@ -55,7 +56,7 @@ object EventsClientImpl : EventsClient {
         return getEventsApi(getRetrofit()).getEventDetails(eventID)
     }
 
-    override suspend fun checkin(checkinRequest: CheckinRequest): Void {
+    override suspend fun checkin(checkinRequest: CheckinRequest): Call<Void> {
         return getEventsApi(getRetrofit()).checkin(checkinRequest)
     }
 

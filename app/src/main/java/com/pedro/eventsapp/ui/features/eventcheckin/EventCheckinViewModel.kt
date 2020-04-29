@@ -5,13 +5,14 @@ import com.pedro.eventsapp.api.EventsClient
 import com.pedro.eventsapp.data.CheckinRequest
 import com.pedro.eventsapp.data.network.Resource
 import com.pedro.eventsapp.data.network.ResponseHandler
+import retrofit2.Call
 
 class EventCheckinViewModel : ViewModel() {
 
     lateinit var responseHandler: ResponseHandler
     lateinit var eventsClient: EventsClient
 
-    suspend fun postCheckin(checkinRequest: CheckinRequest): Resource<Void> {
+    suspend fun postCheckin(checkinRequest: CheckinRequest): Resource<Call<Void>> {
         return try {
             responseHandler.handleSuccess(eventsClient.checkin(checkinRequest))
         } catch (e: Exception) {
